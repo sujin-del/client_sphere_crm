@@ -1,0 +1,6 @@
+task_categories
+task_priorities
+task_repeat_frequency_types
+task_repeat_options
+task_statuses
+tasks

@@ -1,0 +1,7 @@
+organizations
+contacts
+industry_types
+customers
+projects
+project_tasks
+communication_modes
