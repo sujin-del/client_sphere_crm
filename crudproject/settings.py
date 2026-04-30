@@ -90,15 +90,14 @@ WSGI_APPLICATION = 'crudproject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'order_management_db',
-        'USER': 'root',
-        'PASSWORD': 'kabeer',
-        'HOST': 'localhost',
-        'PORT': '3307',
+        'ENGINE': config("DB_ENGINE"),
+        'NAME': config("DB_NAME"),
+        'USER': config("DB_USER="),
+        'PASSWORD': config("DB_PASSWORD"),
+        'HOST': config("DB_HOST"),
+        'HOST': config("DB_HOST"),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
