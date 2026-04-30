@@ -1,0 +1,8 @@
+bank_accounts
+data_statuses
+financial_transactions
+invoice_statuses
+invoice_task_groups
+invoices
+transaction_directions
+transaction_modes
