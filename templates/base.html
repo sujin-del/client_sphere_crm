@@ -30,7 +30,7 @@
       font-family: 'Plus Jakarta Sans', sans-serif;
       background: #f0f4ff;
       color: #1a2340;
-      padding-top: var(--nav-height);
+      padding-top: 78px; 
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -180,7 +180,10 @@
     }
 
     /* ─── MAIN CONTENT AREA ─────────────────────────────────── */
-    main { flex: 1; }
+    main {
+      flex: 1;
+      margin-top: 10px;
+}
 
     /* ─── FOOTER ────────────────────────────────────────────── */
     footer {
@@ -290,6 +293,19 @@
       50%       { opacity: 0.4; }
     }
 
+    @media (max-width: 991px) {
+
+      .navbar-collapse {
+        background: rgba(13, 27, 62, 0.98); /* solid navy */
+        backdrop-filter: none;              /* remove blur inside menu */
+        padding: 16px;
+        border-radius: 12px;
+        margin-top: 10px;
+        border: 1px solid rgba(255,255,255,0.08);
+      }
+
+    }
+
     /* ─── UTILITY ───────────────────────────────────────────── */
     {% block extra_css %}{% endblock %}
   </style>
@@ -303,7 +319,7 @@
   <div class="container-fluid px-4">
 
     <!-- Brand -->
-    <a class="navbar-brand" href="{% url 'dashboard' %}">
+    <a class="navbar-brand" href="#">
       <div class="brand-icon"><i class="bi bi-bank2"></i></div>
       <div class="brand-text">Cape<span>Bank</span></div>
     </a>
@@ -319,31 +335,31 @@
       <ul class="navbar-nav mx-auto gap-1">
         <li class="nav-item">
           <a class="nav-link {% block nav_dashboard %}{% endblock %}"
-             href="{% url 'dashboard' %}">
+             href="#">
             <i class="bi bi-grid-1x2"></i> Dashboard
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link {% block nav_accounts %}{% endblock %}"
-             href="{% url 'accounts' %}">
+             href="#">
             <i class="bi bi-person-badge"></i> Accounts
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link {% block nav_transactions %}{% endblock %}"
-             href="{% url 'transactions' %}">
+             href="{% url 'transaction_home' %}">
             <i class="bi bi-arrow-left-right"></i> Transactions
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link {% block nav_invoices %}{% endblock %}"
-             href="{% url 'invoices' %}">
+             href="#">
             <i class="bi bi-receipt-cutoff"></i> Invoices
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link {% block nav_reports %}{% endblock %}"
-             href="{% url 'reports' %}">
+             href="#">
             <i class="bi bi-bar-chart-line"></i> Reports
           </a>
         </li>
@@ -384,18 +400,18 @@
               </div>
             </li>
             <li>
-              <a class="dropdown-item" href="{% url 'profile' %}">
+              <a class="dropdown-item" href="#">
                 <i class="bi bi-person-circle"></i> My Profile
               </a>
             </li>
             <li>
-              <a class="dropdown-item" href="{% url 'settings' %}">
+              <a class="dropdown-item" href="#">
                 <i class="bi bi-gear"></i> Settings
               </a>
             </li>
             <li><hr class="dropdown-divider"></li>
             <li>
-              <a class="dropdown-item text-danger" href="{% url 'logout' %}">
+              <a class="dropdown-item text-danger" href="#">
                 <i class="bi bi-box-arrow-right"></i> Logout
               </a>
             </li>
@@ -410,7 +426,7 @@
 <!-- ═══════════════════════════════════════════════
      MAIN CONTENT BLOCK
 ════════════════════════════════════════════════ -->
-<main class="py-4">
+<main class="py-4" style="margin-top: 10px;">
   {% block content %}
   <!-- Page content goes here -->
   {% endblock %}
@@ -449,11 +465,11 @@
         <div class="col-lg-2 col-md-3 col-6">
           <div class="footer-heading">Navigation</div>
           <ul class="footer-links">
-            <li><a href="{% url 'dashboard' %}"><i class="bi bi-chevron-right"></i>Dashboard</a></li>
-            <li><a href="{% url 'accounts' %}"><i class="bi bi-chevron-right"></i>Accounts</a></li>
-            <li><a href="{% url 'transactions' %}"><i class="bi bi-chevron-right"></i>Transactions</a></li>
-            <li><a href="{% url 'invoices' %}"><i class="bi bi-chevron-right"></i>Invoices</a></li>
-            <li><a href="{% url 'reports' %}"><i class="bi bi-chevron-right"></i>Reports</a></li>
+            <li><a href="#"><i class="bi bi-chevron-right"></i>Dashboard</a></li>
+            <li><a href="#"><i class="bi bi-chevron-right"></i>Accounts</a></li>
+            <li><a href="{% url 'transaction_home' %}"><i class="bi bi-chevron-right"></i>Transactions</a></li>
+            <li><a href="#"><i class="bi bi-chevron-right"></i>Invoices</a></li>
+            <li><a href="#"><i class="bi bi-chevron-right"></i>Reports</a></li>
           </ul>
         </div>
 
@@ -461,9 +477,9 @@
         <div class="col-lg-2 col-md-3 col-6">
           <div class="footer-heading">Account</div>
           <ul class="footer-links">
-            <li><a href="{% url 'profile' %}"><i class="bi bi-chevron-right"></i>My Profile</a></li>
-            <li><a href="{% url 'settings' %}"><i class="bi bi-chevron-right"></i>Settings</a></li>
-            <li><a href="{% url 'logout' %}"><i class="bi bi-chevron-right"></i>Logout</a></li>
+            <li><a href="#"><i class="bi bi-chevron-right"></i>My Profile</a></li>
+            <li><a href="#"><i class="bi bi-chevron-right"></i>Settings</a></li>
+            <li><a href="#"><i class="bi bi-chevron-right"></i>Logout</a></li>
           </ul>
         </div>
 
@@ -533,11 +549,11 @@
   document.getElementById('footer-year').textContent = new Date().getFullYear();
 
   // Auto-highlight active nav link based on current URL path
-  document.querySelectorAll('.crm-navbar .nav-link').forEach(link => {
-    if (link.href === window.location.href) {
-      link.classList.add('active');
-    }
-  });
+  // document.querySelectorAll('.crm-navbar .nav-link').forEach(link => {
+  //   if (link.href === window.location.href) {
+  //     link.classList.add('active');
+  //   }
+  // });
 </script>
 
 {% block extra_js %}{% endblock %}

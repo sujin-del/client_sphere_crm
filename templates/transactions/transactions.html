@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+{% block nav_transactions %}active{% endblock %}
+
+{% block extra_css %}
+
+<style>
+  .txn-card {
+    border-radius: 16px;
+    background: #ffffff;
+    border: 1px solid rgba(0,0,0,0.04);
+  }
+
+  .txn-header h3 {
+    font-weight: 700;
+    color: #1a2340;
+  }
+
+  .txn-muted {
+    font-size: 0.8rem;
+    color: #8899b4;
+  }
+
+  .txn-table thead {
+    background: rgba(26,86,219,0.05);
+  }
+
+  .txn-badge {
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .deposit {
+    background: rgba(0,212,255,0.12);
+    color: #00bcd4;
+  }
+
+  .withdraw {
+    background: rgba(255,71,87,0.12);
+    color: #ff4757;
+  }
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+
+<div class="container">
+
+  <!-- HEADER -->
+
+  <div class="d-flex justify-content-between align-items-center mb-4 txn-header">
+    <div>
+      <h3 class="mb-1">Transactions</h3>
+      <div class="txn-muted">
+        Track and manage all account activities
+      </div>
+    </div>
+
+<div>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#txnModal">
+        + New Transaction
+    </button>
+
+    <a href="{% url 'export_csv' %}?mode={{ request.GET.mode }}&search={{ request.GET.search }}&start={{ request.GET.start }}&end={{ request.GET.end }}"
+   class="btn btn-success ms-2">
+   Export CSV
+</a>
+</div>
+
+  </div>
+
+  <!-- FILTER -->
+
+  <div class="card txn-card shadow-sm mb-4">
+    <div class="card-body">
+      <form method="GET" class="row g-3">
+
+    <div class="col-md-4">
+      <label class="form-label txn-muted">Search</label>
+      <input type="text" name="search"
+             class="form-control"
+             placeholder="Account number..."
+             value="{{ request.GET.search }}">
+    </div>
+
+    <div class="col-md-3">
+      <label class="form-label txn-muted">Mode</label>
+      <select name="mode" class="form-control">
+        <option value="">All</option>
+        {% for m in modes %}
+          <option value="{{ m.id }}"
+            {% if request.GET.mode == m.id|stringformat:"s" %}selected{% endif %}>
+            {{ m.name }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="col-md-2 d-flex align-items-end">
+      <button class="btn btn-outline-primary w-100">
+        <i class="bi bi-funnel me-1"></i> Filter
+      </button>
+    </div>
+
+  </form>
+</div>
+
+
+  </div>
+
+  <div class="row">
+  <div class="col">
+    <h5>Total Transactions: {{ transactions|length }}</h5>
+  </div>
+</div>
+  <!-- MESSAGES -->
+
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert 
+      {% if message.tags == 'error' %}
+        alert-danger
+      {% else %}
+        alert-{{ message.tags }}
+      {% endif %}
+      mb-3">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+  <!-- TABLE -->
+
+  <div class="card txn-card shadow-sm">
+
+
+<div class="table-responsive">
+  <table class="table align-middle mb-0 txn-table">
+
+    <thead>
+      <tr>
+        <th class="ps-4">Direction</th>
+        <th>Account</th>
+        <th>Amount</th>
+        <th>Mode</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for t in transactions %}
+      <tr>
+
+        <td class="ps-4">
+          <span class="txn-badge
+            {% if t.direction == 'CREDIT' %}deposit
+            {% else %}withdraw{% endif %}">
+            {{ t.direction }}
+          </span>
+        </td>
+
+        <td>
+          <div class="fw-semibold">
+            {{ t.account.account_number }}
+          </div>
+          <div class="txn-muted">Account</div>
+        </td>
+
+        <td class="fw-semibold">
+          ₹{{ t.amount }}
+        </td>
+
+        <td>
+          {{ t.mode.name }}
+        </td>
+
+        <td>
+          <div>{{ t.created_at|date:"d M Y" }}</div>
+          <div class="txn-muted">
+            {{ t.created_at|time:"H:i" }}
+          </div>
+        </td>
+
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="5" class="text-center py-5 txn-muted">
+          No transactions found
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+
+  </table>
+</div>
+
+  </div>
+
+</div>
+
+<!-- MODAL -->
+
+<div class="modal fade" id="txnModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+  <form method="POST">
+    {% csrf_token %}
+
+    <div class="modal-header">
+      <h5 class="modal-title">New Transaction</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    </div>
+
+    <div class="modal-body">
+
+      <div class="mb-3">
+        <label>Direction</label>
+        <select name="direction" class="form-control">
+          <option value="CREDIT">Credit</option>
+          <option value="DEBIT">Debit</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label>Amount</label>
+        <input type="number" step="0.01" name="amount" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label>Account</label>
+        <select name="account" class="form-control">
+          {% for acc in accounts %}
+            <option value="{{ acc.id }}">{{ acc.account_number }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label>Mode</label>
+        <select name="mode" class="form-control">
+          {% for m in modes %}
+            <option value="{{ m.id }}">{{ m.name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-primary">Submit</button>
+    </div>
+
+  </form>
+
+</div>
+
+  </div>
+</div>
+
+{% endblock %}
