@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.db.models import Count
 from transactions.models import Transaction, Account
+from django.contrib.auth.decorators import login_required
 
 # Try importing invoices (safe)
 try:
@@ -8,7 +9,7 @@ try:
 except:
     Invoice = None
 
-
+@login_required
 def dashboard_home(request):
 
     # ----------- SUMMARY -----------

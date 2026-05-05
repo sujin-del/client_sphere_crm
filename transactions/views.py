@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from .services import create_transaction
 from decimal import Decimal
 import csv
@@ -12,7 +13,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import TransactionSerializer
 
-
+@login_required
 def transaction_home(request):
 
     if request.method == "POST":

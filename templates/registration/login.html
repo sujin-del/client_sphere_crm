@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block title %}Login — Bank CRM{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+  <div class="card shadow-sm" style="width: 100%; max-width: 400px;">
+    <div class="card-body p-4">
+
+      <!-- Header -->
+      <div class="text-center mb-4">
+        <span style="font-size: 2rem;">🏦</span>
+        <h4 class="mt-2 mb-1">Bank CRM</h4>
+        <p class="text-muted small">Sign in to your account</p>
+      </div>
+
+      <!-- Error messages -->
+      {% if form.errors %}
+        <div class="alert alert-danger py-2">
+          Invalid username or password.
+        </div>
+      {% endif %}
+
+      <!-- Login Form -->
+      <form method="post">
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label for="id_username" class="form-label">Username</label>
+          <input type="text" name="username" id="id_username"
+                 class="form-control" placeholder="Enter username" autofocus required>
+        </div>
+
+        <div class="mb-3">
+          <label for="id_password" class="form-label">Password</label>
+          <input type="password" name="password" id="id_password"
+                 class="form-control" placeholder="Enter password" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">
+          Sign In
+        </button>
+      </form>
+
+    </div>
+  </div>
+</div>
+{% endblock %}
