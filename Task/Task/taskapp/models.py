@@ -2,11 +2,10 @@ from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 Base = declarative_base()
+
 class TaskCategories(Base):
     __tablename__ = 'task_categories'
 
-
-=======
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(45, collation="utf8mb3_bin"), unique=True, nullable=False)
     parent_id = Column(Integer, nullable=False)
@@ -20,15 +19,29 @@ new_category = TaskCategories(name="Work", parent_id=0, sort_order_index=1)
 session.add(new_category)
 session.commit()
 print("Table created and sample record inserted successfully!")
->>>>>>> 805571709049f15e4bdfe4362bb302248dc1f464
 
+from django.db import models
 
-
-class TaskRepeatOptions(models.Model):
-    name = models.CharField(max_length=45)
+class TaskPriority(models.Model):
+    name = models.CharField(max_length=45, null=True, blank=True)
+    color_code = models.CharField(max_length=45, null=True, blank=True)
+    weight = models.IntegerField(null=True, blank=True)
 
     class Meta:
-        db_table = "task_repeat_options"
+        db_table = 'task_priorities'
+        ordering = ['weight']
 
     def __str__(self):
-        return self.name
+        return self.name if self.name else f"Priority {self.id}"
+
+
+    # taskfrequency
+
+    class TaskRepeatFrequencyType(models.Model):
+        name = models.CharField(max_length=45)
+
+        class Meta:
+            db_table = 'task_repeat_frequency_types'
+
+        def __str__(self):
+            return self.name
