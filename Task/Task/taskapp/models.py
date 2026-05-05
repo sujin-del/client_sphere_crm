@@ -33,15 +33,10 @@ class TaskPriority(models.Model):
 
     def __str__(self):
         return self.name if self.name else f"Priority {self.id}"
-    
 
-<<<<<<< HEAD
     # task/models.py
 
-    from django.db import models
-=======
 #TaskRepeatFrequencyType
->>>>>>> 9c64740adb8adbd349bd5cd396bc0b58c2c6222d
 
     class TaskRepeatFrequencyType(models.Model):
         name = models.CharField(max_length=45)
