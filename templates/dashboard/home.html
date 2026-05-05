@@ -1,0 +1,121 @@
+
+{% extends "base.html" %}
+{% block nav_dashboard %}active{% endblock %}
+{% block content %}
+
+<div class="container mt-4">
+
+  <!-- HEADER -->
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3>Dashboard</h3>
+
+<div>
+  <a href="/transactions/" class="btn btn-primary me-2">New Transaction</a>
+  <a href="#" class="btn btn-success me-2">Add Account</a>
+  <a href="/invoices/" class="btn btn-warning">New Invoice</a>
+</div>
+
+  </div>
+
+  <!-- SUMMARY CARDS -->
+
+  <div class="row mb-4">
+
+<div class="col-md-4">
+  <div class="card p-3">
+    <h6>Total Accounts</h6>
+    <h4>{{ total_accounts }}</h4>
+  </div>
+</div>
+
+<div class="col-md-4">
+  <div class="card p-3">
+    <h6>Total Transactions</h6>
+    <h4>{{ total_transactions }}</h4>
+  </div>
+</div>
+
+<div class="col-md-4">
+  <div class="card p-3">
+    <h6>Pending Invoices</h6>
+    <h4>{{ pending_invoices }}</h4>
+  </div>
+</div>
+
+  </div>
+
+  <!-- CHART + RECENT -->
+
+  <div class="row">
+
+<!-- CHART -->
+<div class="col-md-6">
+  <div class="card p-3">
+    <h5>Invoice Status</h5>
+    <canvas id="invoiceChart"></canvas>
+  </div>
+</div>
+
+<!-- RECENT TRANSACTIONS -->
+<div class="col-md-6">
+  <div class="card p-3">
+    <h5>Recent Transactions</h5>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Account</th>
+          <th>Amount</th>
+          <th>Type</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for t in recent_transactions %}
+        <tr>
+          <td>{{ t.account.account_number }}</td>
+          <td>₹{{ t.amount }}</td>
+          <td>
+            {% if t.direction == "CREDIT" %}
+              <span class="text-success">Credit</span>
+            {% else %}
+              <span class="text-danger">Debit</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+
+    </table>
+  </div>
+</div>
+
+  </div>
+
+</div>
+
+<!-- CHART SCRIPT -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const data = {{ invoice_status_data|safe }};
+
+  const labels = data.map(item => item.status__name);
+  const values = data.map(item => item.count);
+
+  const ctx = document.getElementById('invoiceChart');
+
+  new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: labels,
+      datasets: [{
+        data: values
+      }]
+    }
+  });
+</script>
+
+{% endblock %}
