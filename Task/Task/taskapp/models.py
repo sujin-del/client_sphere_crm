@@ -35,15 +35,42 @@ class TaskPriority(models.Model):
         return self.name if self.name else f"Priority {self.id}"
     
 
+<<<<<<< HEAD
     # task/models.py
 
     from django.db import models
+=======
+#TaskRepeatFrequencyType
+>>>>>>> 9c64740adb8adbd349bd5cd396bc0b58c2c6222d
 
     class TaskRepeatFrequencyType(models.Model):
         name = models.CharField(max_length=45)
 
         class Meta:
             db_table = 'task_repeat_frequency_types'
+
+        def __str__(self):
+            return self.name
+
+#TaskRepeatOptions
+
+    class TaskRepeatOptions(models.Model):
+        name = models.CharField(max_length=45)
+
+        class Meta:
+            db_table = "task_repeat_options"
+
+
+        def __str__(self):
+            return self.name
+
+    class TaskStatus(models.Model):
+        name = models.CharField(max_length=45, unique=True)
+        color_code = models.CharField(max_length=45, null=True, blank=True)
+        is_active = models.BooleanField(default=True)
+
+        class Meta:
+            db_table = 'task_statuses'
 
         def __str__(self):
             return self.name
