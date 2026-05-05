@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Dashboard{% endblock %}</title>
+
+    <link rel="stylesheet" href="/static/css/styles.css">
+
+    {% block head %}{% endblock %}
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            background-color: #f5f6fa;
+        }
+
+        .sidebar {
+            width: 220px;
+            height: 100vh;
+            background: #1e293b;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .sidebar h2 {
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: #cbd5f5;
+            text-decoration: none;
+            padding: 10px 0;
+            transition: 0.2s;
+        }
+
+        .sidebar a:hover {
+            color: #fff;
+        }
+
+        .main {
+            flex: 1;
+            padding: 20px;
+        }
+
+        header {
+            margin-bottom: 20px;
+        }
+
+        footer {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <h2>Oraganizo</h2>
+        <nav>
+            <a href="/contacts">Contacts</a>
+            <a href="/industry-types">Industry Types</a>
+            <a href="/customers">Customers</a>
+            <a href="/projects">Projects</a>
+            <a href="/project-tasks">Project Tasks</a>
+            <a href="/communication-modes">Communication Modes</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main">
+        <header>
+            <h1>{% block page_title %}Dashboard{% endblock %}</h1>
+        </header>
+
+        {% block content %}
+        <!-- Page content goes here -->
+        {% endblock %}
+
+        <footer>
+            <p>&copy; {{ year }} Oraganizo</p>
+        </footer>
+    </div>
+
+    {% block scripts %}{% endblock %}
+
+</body>
+</html>
