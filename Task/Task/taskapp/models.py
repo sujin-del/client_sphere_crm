@@ -45,3 +45,14 @@ class TaskPriority(models.Model):
 
         def __str__(self):
             return self.name
+
+    class TaskStatus(models.Model):
+        name = models.CharField(max_length=45, unique=True)
+        color_code = models.CharField(max_length=45, null=True, blank=True)
+        is_active = models.BooleanField(default=True)
+
+        class Meta:
+            db_table = 'task_statuses'
+
+        def __str__(self):
+            return self.name
