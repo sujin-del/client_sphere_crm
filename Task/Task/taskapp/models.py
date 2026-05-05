@@ -38,3 +38,14 @@ class TaskPriority(models.Model):
 
         def __str__(self):
             return self.name
+
+#TaskRepeatOptions
+
+    class TaskRepeatOptions(models.Model):
+        name = models.CharField(max_length=45)
+
+        class Meta:
+            db_table = "task_repeat_options"
+
+        def __str__(self):
+            return self.name
