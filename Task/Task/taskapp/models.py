@@ -2,6 +2,7 @@ from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 Base = declarative_base()
+
 class TaskCategories(Base):
     __tablename__ = 'task_categories'
 
@@ -18,3 +19,17 @@ new_category = TaskCategories(name="Work", parent_id=0, sort_order_index=1)
 session.add(new_category)
 session.commit()
 print("Table created and sample record inserted successfully!")
+
+from django.db import models
+
+class TaskPriority(models.Model):
+    name = models.CharField(max_length=45, null=True, blank=True)
+    color_code = models.CharField(max_length=45, null=True, blank=True)
+    weight = models.IntegerField(null=True, blank=True)
+
+    class Meta:
+        db_table = 'task_priorities'
+        ordering = ['weight']
+
+    def __str__(self):
+        return self.name if self.name else f"Priority {self.id}"
