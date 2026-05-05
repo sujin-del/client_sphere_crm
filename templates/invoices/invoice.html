@@ -1,0 +1,110 @@
+
+{% extends "base.html" %}
+
+{% block nav_invoices %}active{% endblock %}
+
+{% block content %}
+
+<div class="container mt-4">
+
+  <h3>Invoices</h3>
+
+  <!-- FILTER -->
+
+  <form method="GET" class="row mb-3">
+
+<div class="col-md-3">
+  <select name="status" class="form-control">
+    <option value="">All Status</option>
+    {% for s in statuses %}
+      <option value="{{ s.id }}">{{ s.name }}</option>
+    {% endfor %}
+  </select>
+</div>
+
+<div class="col-md-3">
+  <input type="date" name="start" class="form-control">
+</div>
+
+<div class="col-md-3">
+  <input type="date" name="end" class="form-control">
+</div>
+
+<div class="col-md-3">
+  <button class="btn btn-primary w-100">Filter</button>
+</div>
+
+  </form>
+
+  <!-- TABLE -->
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Transaction</th>
+        <th>Amount</th>
+        <th>Status</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+
+<tbody>
+  {% for inv in invoices %}
+  <tr onclick="goToDetail(event, '{{ inv.id }}')" style="cursor:pointer;">
+
+    <td>{{ inv.id }}</td>
+
+    <td>{{ inv.transaction.reference_id }}</td>
+
+    <td>₹{{ inv.amount }}</td>
+
+    <td>
+      <!-- STATUS DISPLAY -->
+      <div>
+        {% if inv.status.name == "Pending" %}
+          <span class="text-warning">Pending</span>
+        {% elif inv.status.name == "Paid" %}
+          <span class="text-success">Paid</span>
+        {% elif inv.status.name == "Overdue" %}
+          <span class="text-danger">Overdue</span>
+        {% else %}
+          <span class="text-secondary">Cancelled</span>
+        {% endif %}
+      </div>
+
+      <!-- STATUS UPDATE FORM -->
+      <form method="POST" action="/invoices/update/{{ inv.id }}/" onclick="event.stopPropagation();">
+        {% csrf_token %}
+        <select name="status" onchange="this.form.submit()">
+          {% for s in statuses %}
+            <option value="{{ s.id }}"
+              {% if inv.status.id == s.id %}selected{% endif %}>
+              {{ s.name }}
+            </option>
+          {% endfor %}
+        </select>
+      </form>
+    </td>
+
+    <td>{{ inv.created_at|date:"d M Y" }}</td>
+
+  </tr>
+  {% endfor %}
+</tbody>
+
+  </table>
+
+</div>
+{% endblock %}
+
+
+<script>
+function goToDetail(event, id) {
+  // prevent redirect if clicking form elements
+  if (event.target.tagName === 'SELECT' || event.target.tagName === 'OPTION') {
+    return;
+  }
+  window.location.href = id + "/";
+}
+</script>

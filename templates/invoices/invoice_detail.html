@@ -1,0 +1,33 @@
+
+{% extends "base.html" %}
+{% block nav_invoices %}active{% endblock %}
+{% block content %}
+
+<div class="container mt-4">
+
+  <h3>Invoice Details</h3>
+
+  <p><strong>ID:</strong> {{ invoice.id }}</p>
+  <p><strong>Transaction:</strong> {{ invoice.transaction.reference_id }}</p>
+  <p><strong>Amount:</strong> ₹{{ invoice.amount }}</p>
+  <p><strong>Status:</strong> {{ invoice.status.name }}</p>
+  <p><strong>Date:</strong> {{ invoice.created_at }}</p>
+
+  <hr>
+
+  <form method="POST" action="/invoices/update/{{ invoice.id }}/">
+    {% csrf_token %}
+
+<label>Update Status</label>
+<select name="status" class="form-control mb-3">
+  {% for s in statuses %}
+    <option value="{{ s.id }}">{{ s.name }}</option>
+  {% endfor %}
+</select>
+
+<button class="btn btn-primary">Update</button>
+
+  </form>
+
+</div>
+{% endblock %}
