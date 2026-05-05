@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Priority</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            width: 400px;
+            margin: auto;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+        }
+
+        button {
+            background-color: #2a5298;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Update Priority</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="name" value="{{ priority.name }}">
+        <input type="text" name="color_code" value="{{ priority.color_code }}">
+        <input type="number" name="weight" value="{{ priority.weight }}">
+        <button type="submit">Update</button>
+    </form>
+
+</div>
+
+</body>
+</html>
