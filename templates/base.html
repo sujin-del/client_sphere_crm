@@ -341,7 +341,7 @@
         </li>
         <li class="nav-item">
           <a class="nav-link {% block nav_accounts %}{% endblock %}"
-             href="#">
+             href="{% url 'account_list'%}">
             <i class="bi bi-person-badge"></i> Accounts
           </a>
         </li>
@@ -355,12 +355,6 @@
           <a class="nav-link {% block nav_invoices %}{% endblock %}"
              href="/invoices/">
             <i class="bi bi-receipt-cutoff"></i> Invoices
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link {% block nav_reports %}{% endblock %}"
-             href="#">
-            <i class="bi bi-bar-chart-line"></i> Reports
           </a>
         </li>
       </ul>
@@ -398,16 +392,6 @@
                 </div>
                 <div class="role">CRM Manager</div>
               </div>
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">
-                <i class="bi bi-person-circle"></i> My Profile
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">
-                <i class="bi bi-gear"></i> Settings
-              </a>
             </li>
             <li><hr class="dropdown-divider"></li>
             <li>
@@ -467,10 +451,9 @@
           <div class="footer-heading">Navigation</div>
           <ul class="footer-links">
             <li><a href="/"><i class="bi bi-chevron-right"></i>Dashboard</a></li>
-            <li><a href="#"><i class="bi bi-chevron-right"></i>Accounts</a></li>
+            <li><a href="{% url 'account_list' %}"><i class="bi bi-chevron-right"></i>Accounts</a></li>
             <li><a href="{% url 'transaction_home' %}"><i class="bi bi-chevron-right"></i>Transactions</a></li>
             <li><a href="/invoices/"><i class="bi bi-chevron-right"></i>Invoices</a></li>
-            <li><a href="#"><i class="bi bi-chevron-right"></i>Reports</a></li>
           </ul>
         </div>
 
@@ -478,9 +461,7 @@
         <div class="col-lg-2 col-md-3 col-6">
           <div class="footer-heading">Account</div>
           <ul class="footer-links">
-            <li><a href="#"><i class="bi bi-chevron-right"></i>My Profile</a></li>
-            <li><a href="#"><i class="bi bi-chevron-right"></i>Settings</a></li>
-            <li><a href="#"><i class="bi bi-chevron-right"></i>Logout</a></li>
+            <li><a href="{% url 'logout' %}"><i class="bi bi-chevron-right"></i>Logout</a></li>
           </ul>
         </div>
 

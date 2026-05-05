@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container mt-4" style="max-width: 500px;">
+  <h4 class="mb-4">Account Details</h4>
+  <div class="card">
+    <div class="card-body">
+      <p><strong>Name:</strong> {{ account.first_name }} {{ account.last_name }}</p>
+      <p><strong>Account No:</strong> {{ account.account_number }}</p>
+      <p><strong>Type:</strong> {{ account.account_type }}</p>
+      <p><strong>IFSC Code:</strong> {{ account.ifsc_code }}</p>
+      <p><strong>Branch:</strong> {{ account.branch }}</p>
+      <p><strong>Balance:</strong> {{ account.balance }}</p>
+
+    </div>
+  </div>
+  <div class="d-flex gap-2 mt-3">
+    <a href="{% url 'account_update' account.pk %}" class="btn btn-warning btn-sm">Edit</a>
+    <a href="{% url 'account_list' %}" class="btn btn-secondary btn-sm">Back</a>
+  </div>
+</div>
+
+{% endblock %}

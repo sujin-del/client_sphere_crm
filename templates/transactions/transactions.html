@@ -240,13 +240,15 @@
       </div>
 
       <div class="mb-3">
-        <label>Mode</label>
-        <select name="mode" class="form-control">
-          {% for m in modes %}
-            <option value="{{ m.id }}">{{ m.name }}</option>
-          {% endfor %}
-        </select>
-      </div>
+  <label>Mode</label>
+  <select name="mode" class="form-control">
+    <option value="UPI">UPI</option>
+    <option value="NEFT">NEFT</option>
+    <option value="CASH">Cash</option>
+    <option value="IMPS">IMPS</option>
+    <option value="RTGS">RTGS</option>
+  </select>
+</div>
 
     </div>
 

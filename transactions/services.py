@@ -14,24 +14,27 @@ def create_transaction(account, amount, direction, mode):
 
     if direction == 'CREDIT':
         account.balance += amount
+        account.bank_account.balance += amount  # ✅ update Bank_Account too
     else:
         account.balance -= amount
+        account.bank_account.balance -= amount  # ✅ update Bank_Account too
 
     account.save()
+    account.bank_account.save()  # ✅ save Bank_Account too
 
     tx = Transaction.objects.create(
-        account=account,
-        amount=amount,
-        direction=direction,
-        mode=mode
+        account   = account,
+        amount    = amount,
+        direction = direction,
+        mode      = mode
     )
 
-    pending_status = InvoiceStatus.objects.get(name='Pending')
+    pending_status, created = InvoiceStatus.objects.get_or_create(name='Pending')
 
     Invoice.objects.create(
-        transaction=tx,
-        amount=amount,
-        status=pending_status
+        transaction = tx,
+        amount      = amount,
+        status      = pending_status
     )
 
     return tx

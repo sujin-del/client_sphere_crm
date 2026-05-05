@@ -24,7 +24,7 @@ def transaction_home(request):
         mode_id = request.POST.get('mode')
 
         account = Account.objects.get(id=account_id)
-        mode = TransactionMode.objects.get(id=mode_id)
+        mode, created = TransactionMode.objects.get_or_create(name=mode_id)
 
         try:
             create_transaction(
