@@ -1,37 +1,37 @@
-from django.shortcuts import render, redirect
-from .models import TaskCategory
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import TaskPriority
 
-<<<<<<< HEAD
-def category_list(request):
-    categories = TaskCategory.objects.all()
-    return render(request, "task_categories/list.html", {"categories": categories})
-
-def add_category(request):
+def task_priority_list(request):
     if request.method == "POST":
-        name = request.POST.get("name")
-        parent_id = request.POST.get("parent_id", 0)
-        sort_order_index = request.POST.get("sort_order_index", None)
+        name = request.POST.get('name')
+        color_code = request.POST.get('color_code')
+        weight = request.POST.get('weight')
 
-        TaskCategory.objects.create(
+        TaskPriority.objects.create(
             name=name,
-            parent_id=parent_id,
-            sort_order_index=sort_order_index
+            color_code=color_code,
+            weight=weight
         )
-        return redirect("category_list")
+        return redirect('task_priority_list')
 
-    return render(request, "task_categories/add.html")
+    priorities = TaskPriority.objects.all()
+    return render(request, 'task_priority.html', {'priorities': priorities})
 
-def delete_category(request, category_id):
-    category = TaskCategory.objects.get(id=category_id)
-    category.delete()
-    return redirect("category_list")
-=======
-# Create your views here.
 
-# taskfrequency
-from .models import TaskRepeatFrequencyType
+def task_priority_update(request, pk):
+    priority = get_object_or_404(TaskPriority, pk=pk)
 
-def frequency_list(request):
-    data = TaskRepeatFrequencyType.objects.all()
-    return render(request, 'task/frequency_list.html', {'data': data})
->>>>>>> 9c64740adb8adbd349bd5cd396bc0b58c2c6222d
+    if request.method == "POST":
+        priority.name = request.POST.get('name')
+        priority.color_code = request.POST.get('color_code')
+        priority.weight = request.POST.get('weight')
+        priority.save()
+        return redirect('task_priority_list')
+
+    return render(request, 'task_priority_update.html', {'priority': priority})
+
+
+def task_priority_delete(request, pk):
+    priority = get_object_or_404(TaskPriority, pk=pk)
+    priority.delete()
+    return redirect('task_priority_list')
