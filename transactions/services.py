@@ -1,9 +1,13 @@
 from django.db import transaction as db_transaction
 from .models import Transaction
+from invoices.models import Invoice, InvoiceStatus
 
 
 @db_transaction.atomic
 def create_transaction(account, amount, direction, mode):
+
+    if amount <= 0:
+        raise ValueError("Amount must be greater than zero")
 
     if direction == 'DEBIT' and account.balance < amount:
         raise ValueError("Insufficient balance")
@@ -20,6 +24,14 @@ def create_transaction(account, amount, direction, mode):
         amount=amount,
         direction=direction,
         mode=mode
+    )
+
+    pending_status = InvoiceStatus.objects.get(name='Pending')
+
+    Invoice.objects.create(
+        transaction=tx,
+        amount=amount,
+        status=pending_status
     )
 
     return tx
