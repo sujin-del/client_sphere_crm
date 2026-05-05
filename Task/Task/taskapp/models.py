@@ -39,6 +39,15 @@ class TaskPriority(models.Model):
         def __str__(self):
             return self.name
 
+
+
+
+
+
+
+
+
+
 #TaskRepeatOptions
 
     class TaskRepeatOptions(models.Model):
@@ -47,5 +56,9 @@ class TaskPriority(models.Model):
         class Meta:
             db_table = "task_repeat_options"
 
+
         def __str__(self):
             return self.name
+
+
+
