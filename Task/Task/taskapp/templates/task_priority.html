@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task Priorities</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            width: 600px;
+            margin: auto;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        input, button {
+            padding: 8px;
+            margin: 5px 0;
+            width: 100%;
+        }
+
+        button {
+            background-color: #2a5298;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #1e3c72;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        a {
+            text-decoration: none;
+            color: blue;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Task Priorities</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+        <input type="text" name="name" placeholder="Name">
+        <input type="text" name="color_code" placeholder="Color Code">
+        <input type="number" name="weight" placeholder="Weight">
+        <button type="submit">Add Priority</button>
+    </form>
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Color</th>
+            <th>Weight</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for p in priorities %}
+        <tr>
+            <td>{{ p.name }}</td>
+            <td>{{ p.color_code }}</td>
+            <td>{{ p.weight }}</td>
+            <td>
+                <a href="{% url 'task_priority_update' p.id %}">Edit</a> |
+                <a href="{% url 'task_priority_delete' p.id %}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+</div>
+
+</body>
+</html>
