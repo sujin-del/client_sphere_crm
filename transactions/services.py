@@ -14,13 +14,13 @@ def create_transaction(account, amount, direction, mode):
 
     if direction == 'CREDIT':
         account.balance += amount
-        account.bank_account.balance += amount  # ✅ update Bank_Account too
+        account.bank_account.balance += amount
     else:
         account.balance -= amount
-        account.bank_account.balance -= amount  # ✅ update Bank_Account too
+        account.bank_account.balance -= amount
 
     account.save()
-    account.bank_account.save()  # ✅ save Bank_Account too
+    account.bank_account.save()
 
     tx = Transaction.objects.create(
         account   = account,
