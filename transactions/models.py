@@ -51,7 +51,7 @@ class Transaction(models.Model):
                         TransactionMode,
                         on_delete=models.SET_NULL,
                         null=True,
-                        to_field='name',      # ✅ link using name not id
+                        to_field='name',
                   )
     description = models.TextField(blank=True)
     created_at  = models.DateTimeField(auto_now_add=True)

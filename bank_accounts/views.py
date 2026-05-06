@@ -32,7 +32,7 @@ def account_create(request):
         )
 
         Account.objects.create(
-            bank_account=bank_account,  # ✅ link here
+            bank_account=bank_account,
             account_number=data['account_number'],
             balance=data['balance'],
         )
